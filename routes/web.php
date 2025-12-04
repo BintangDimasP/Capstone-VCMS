@@ -1,11 +1,53 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\VcmsController;
+use App\Http\Controllers\RedakturController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Admin\UserController;
 
-Route::get('/', function () {
-    return view('home');
+
+Route::get('/', [VcmsController::class, 'showHome'])->name('home');
+
+
+Route::middleware('guest')->group(function () {
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AuthController::class, 'login']);
 });
 
-Route::get('/vcms', [App\Http\Controllers\VcmsController::class, 'index'])->name('vcms.index');
-Route::get('/vcms/{slug}/edit', [App\Http\Controllers\VcmsController::class, 'edit'])->name('vcms.edit');
-Route::post('/vcms/{slug}/update', [App\Http\Controllers\VcmsController::class, 'update'])->name('vcms.update');
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+
+
+Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group(function () {
+    
+  
+    Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+    Route::resource('users', UserController::class)->except(['create', 'edit', 'show']);
+   
+});
+
+
+Route::middleware(['auth', 'can:redaktur'])->prefix('redaktur')->name('redaktur.')->group(function () {
+
+  
+    Route::get('/dashboard', [RedakturController::class, 'dashboard'])->name('dashboard');
+
+    // 2. LOGIC SIMPAN / UPDATE (Pakai VcmsController)
+    // Ini route yang dipanggil oleh Javascript (AJAX) saat tombol Save diklik
+    Route::post('/page/update-batch', [VcmsController::class, 'updatePageBatch'])->name('page.update_batch');
+
+    // --- INTEGRASI ROUTE VCMS KAMU DI SINI ---
+    
+    // URL jadi: /redaktur/vcms
+    // Nama route jadi: redaktur.vcms.index
+    Route::get('/vcms', [VcmsController::class, 'index'])->name('vcms.index');
+    
+    // URL jadi: /redaktur/vcms/{slug}/edit
+    // Nama route jadi: redaktur.vcms.edit
+    Route::get('/vcms/{slug}/edit', [VcmsController::class, 'edit'])->name('vcms.edit');
+    
+    // URL jadi: /redaktur/vcms/{slug}/update
+    // Nama route jadi: redaktur.vcms.update
+    Route::post('/vcms/{slug}/update', [VcmsController::class, 'update'])->name('vcms.update');
+});
