@@ -6,7 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Page extends Model
 {
-    protected $fillable = ['name', 'slug'];
+    protected $fillable = ['title', 'slug', 'content'];
+
+    // TAMBAHKAN INI
+    protected $casts = [
+        'content' => 'array',
+    ];
 
     public function sections()
     {
