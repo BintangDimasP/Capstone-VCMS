@@ -32,7 +32,7 @@
             <a href="{{ route('home') }}" class="{{ Request::routeIs('home') ? $activeClass : $linkClass }}">Beranda</a>
             <a href="#" class="{{ $linkClass }}">Profil</a>
             <a href="{{ route('regulasi') }}" class="{{ $linkClass }}">Regulasi</a>
-            <a href="#" class="{{ $linkClass }}">Dokumen</a>
+            <a href="{{ route('dokumen') }}" class="{{ $linkClass }}">Dokumen</a>
             <a href="#" class="{{ $linkClass }}">Daftar Informasi</a>
             <a href="{{ route('publikasi.index') }}" class="{{ Request::routeIs('publikasi.*') ? $activeClass : $linkClass }}">Publikasi</a>
             <a href="https://opendata.jatimprov.go.id/" class="{{ $linkClass }}">Data Publik</a>
