@@ -9,6 +9,9 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\PublicationController;
 use App\Http\Controllers\RegulationController;
 use App\Http\Controllers\DokumenController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DaftarInformasiController;
+
 
 Route::get('/', [VcmsController::class, 'showHome'])->name('home');
 
@@ -59,8 +62,13 @@ Route::middleware(['auth', 'can:redaktur'])->prefix('redaktur')->name('redaktur.
     Route::post('/regulasi/save', [RegulationController::class, 'update'])->name('regulation.save');
     Route::get('/dokumen', [DokumenController::class, 'edit'])->name('documents.edit');
     Route::post('/dokumen/update', [DokumenController::class, 'update'])->name('documents.update');
+
+    Route::get('/profil', [RedakturController::class, 'profile'])->name('profile');
+    Route::get('/daftar-informasi', [RedakturController::class, 'information'])->name('information');
 });
 
 Route::get('/publikasi', [PublicationController::class, 'index'])->name('publikasi.index');
 Route::get('/regulasi', [RegulationController::class, 'showRegulation'])->name('regulasi');
 Route::get('/dokumen', [DokumenController::class, 'index'])->name('dokumen');
+Route::get('/profil', [ProfileController::class, 'showProfile'])->name('profile');
+Route::get('/daftar-informasi', [DaftarInformasiController::class, 'showInformation'])->name('information');

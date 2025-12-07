@@ -16,10 +16,10 @@
             <span class="text-sm font-medium">Beranda</span>
         </a>
 
-        <a href="#"
-           class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors group {{ request()->routeIs('vcms.*') ? 'bg-blue-600 text-white' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
-            <i class="ph ph-browsers text-xl"></i>
-            <span class="text-sm font-medium">Profile</span>
+        <a href="{{ route('redaktur.profile') }}"
+        class="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors {{ request()->routeIs('redaktur.profile') ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/50' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
+            <i class="ph ph-user-circle text-xl"></i>
+            <span class="text-sm font-medium">Profil Dinas</span>
         </a>
 
         <a href="{{ route('redaktur.regulation') }}"
@@ -34,7 +34,8 @@
     <span class="text-sm font-medium">Dokumen Publik</span>
     </a>
 
-        <a href="#" class="flex items-center gap-3 px-3 py-2.5 text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg transition-colors group">
+        <a href="{{ route('redaktur.information') }}"
+         class="flex items-center gap-3 px-3 py-2.5 text-slate-300 hover:bg-slate-800 hover:text-white rounded-lg transition-colors group">
             <i class="ph ph-newspaper text-xl group-hover:text-blue-400"></i>
             <span class="text-sm font-medium">Daftar Informasi</span>
         </a>

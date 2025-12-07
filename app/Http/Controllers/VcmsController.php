@@ -181,5 +181,39 @@ class VcmsController extends Controller
         }
 
         return response()->json(['status' => 'success', 'message' => 'Semua data dan file berhasil disimpan!']);
+
+    // ... (blok news_cards dan gallery_items di atas) ...
+
+        // ---------------------------------------------------------
+        // TAHAP 6: HANDLE DAFTAR INFORMASI (FILE DOKUMEN)
+        // ---------------------------------------------------------
+        if (isset($changes['information_list'])) {
+            $section = Section::where('page_id', $page->id)->where('section_key', 'information_list')->first();
+            $infoArray = $section ? json_decode($section->content, true) : [];
+            $hasFileUpdate = false;
+
+            if($infoArray) {
+                foreach ($infoArray as $index => &$item) {
+                    $fileKey = "info_file_" . $index;
+                    if ($request->hasFile($fileKey)) {
+                        $file = $request->file($fileKey);
+                        $filename = 'info_' . Str::random(15) . '.' . $file->getClientOriginalExtension();
+                        $path = $file->storeAs('documents/public', $filename, 'public');
+                        $item['file_url'] = '/storage/' . $path;
+                        $hasFileUpdate = true;
+                    }
+                }
+            }
+
+            if ($hasFileUpdate) {
+                $section->content = json_encode($infoArray);
+                $section->save();
+            }
+        }
+
+        // BARU RETURN DI SINI (PALING BAWAH)
+        return response()->json(['status' => 'success', 'message' => 'Semua data berhasil disimpan!']);
     }
+
 }
+

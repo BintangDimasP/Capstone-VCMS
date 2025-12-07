@@ -94,4 +94,20 @@ class RedakturController extends Controller
             'items' => $regulations
         ]);
     }
+    // Halaman Editor Profil
+    public function profile()
+    {
+        // Buat atau Ambil page dengan slug 'profil'
+        $page = Page::firstOrCreate(
+            ['slug' => 'profil'],
+            ['title' => 'Profil Dinas', 'content' => []]
+        );
+
+        return view('redaktur.profile', compact('page'));
+    }
+    public function information()
+    {
+        $page = Page::firstOrCreate(['slug' => 'informasi'], ['title' => 'Daftar Informasi', 'content' => []]);
+        return view('redaktur.information', compact('page'));
+    }
 }
