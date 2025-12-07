@@ -32,6 +32,8 @@
             <a href="{{ route('home') }}" class="{{ Request::routeIs('home') ? $activeClass : $linkClass }}">Beranda</a>
             <a href="{{ route('profile') }}" class="nav-link transition {{ Request::routeIs('profile') ? $activeClass : $linkClass }}">Profil</a>
             <a href="{{ route('regulasi') }}" class="{{ $linkClass }}">Regulasi</a>
+            <a href="{{ route('dokumen') }}" class="{{ $linkClass }}">Dokumen</a>
+            <a href="#" class="{{ $linkClass }}">Daftar Informasi</a>
             <a href="#" class="{{ $linkClass }}">Dokumen</a>
             <a href="{{ route('information') }}" class="{{ $linkClass }}">Daftar Informasi</a>
             <a href="{{ route('publikasi.index') }}" class="{{ Request::routeIs('publikasi.*') ? $activeClass : $linkClass }}">Publikasi</a>
