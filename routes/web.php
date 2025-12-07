@@ -7,7 +7,7 @@ use App\Http\Controllers\RedakturController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\PublicationController;
-
+use App\Http\Controllers\RegulationController;
 
 Route::get('/', [VcmsController::class, 'showHome'])->name('home');
 
@@ -21,17 +21,17 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->n
 
 
 Route::middleware(['auth', 'can:admin'])->prefix('admin')->name('admin.')->group(function () {
-    
-  
+
+
     Route::get('/dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
     Route::resource('users', UserController::class)->except(['create', 'edit', 'show']);
-   
+
 });
 
 
 Route::middleware(['auth', 'can:redaktur'])->prefix('redaktur')->name('redaktur.')->group(function () {
 
-  
+
     Route::get('/dashboard', [RedakturController::class, 'dashboard'])->name('dashboard');
 
     // 2. LOGIC SIMPAN / UPDATE (Pakai VcmsController)
@@ -41,18 +41,22 @@ Route::middleware(['auth', 'can:redaktur'])->prefix('redaktur')->name('redaktur.
 
     Route::get('/publikasi', [RedakturController::class, 'publication'])->name('publication');
     // --- INTEGRASI ROUTE VCMS KAMU DI SINI ---
-    
+
     // URL jadi: /redaktur/vcms
     // Nama route jadi: redaktur.vcms.index
     Route::get('/vcms', [VcmsController::class, 'index'])->name('vcms.index');
-    
+
     // URL jadi: /redaktur/vcms/{slug}/edit
     // Nama route jadi: redaktur.vcms.edit
     Route::get('/vcms/{slug}/edit', [VcmsController::class, 'edit'])->name('vcms.edit');
-    
+
     // URL jadi: /redaktur/vcms/{slug}/update
     // Nama route jadi: redaktur.vcms.update
     Route::post('/vcms/{slug}/update', [VcmsController::class, 'update'])->name('vcms.update');
+    Route::get('/regulasi', [RedakturController::class, 'regulation'])->name('regulation');
+    // ROUTE BARU: SIMPAN REGULASI (POST)
+    Route::post('/regulasi/save', [RegulationController::class, 'update'])->name('regulation.save');
 });
 
 Route::get('/publikasi', [PublicationController::class, 'index'])->name('publikasi.index');
+Route::get('/regulasi', [RegulationController::class, 'showRegulation'])->name('regulasi');

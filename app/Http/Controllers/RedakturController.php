@@ -16,7 +16,7 @@ class RedakturController extends Controller
             ['slug' => 'home'],
             [
                 'title' => 'Beranda',
-                'content' => [] 
+                'content' => []
             ]
         );
 
@@ -40,20 +40,20 @@ class RedakturController extends Controller
             ['slug' => 'home'],
             ['title' => 'Beranda', 'content' => []]
         );
-        
+
         // 3. Ambil Data JSON untuk Preview (Opsional, buat Grid Preview di bawah)
         $newsJson = $homePage->sections()->where('section_key', 'news_cards')->value('content');
         $newsArray = $newsJson ? json_decode($newsJson, true) : [];
-        
+
         $galleryJson = $homePage->sections()->where('section_key', 'gallery_items')->value('content');
         $galleryArray = $galleryJson ? json_decode($galleryJson, true) : [];
 
         // 4. Normalisasi Data untuk Preview
         foreach ($newsArray as &$item) { $item['type'] = 'Berita'; $item['color'] = 'bg-blue-600'; }
-        foreach ($galleryArray as &$item) { 
-            $item['type'] = 'Agenda'; 
+        foreach ($galleryArray as &$item) {
+            $item['type'] = 'Agenda';
             $item['color'] = 'bg-purple-600';
-            $item['title'] = 'Dokumentasi'; 
+            $item['title'] = 'Dokumentasi';
             $item['desc'] = 'Dokumentasi kegiatan...';
             $item['date'] = '-';
             $item['url'] = '#';
@@ -66,6 +66,32 @@ class RedakturController extends Controller
             'page' => $pubPage,       // Dipakai untuk Header (Judul Halaman Publikasi)
             'homePage' => $homePage,  // PENTING: Dipakai untuk Input Hidden Berita & Galeri
             'items' => $allPublications // Dipakai untuk Grid Preview (jika ada)
+        ]);
+    }
+    // Halaman Editor Regulasi
+    public function regulation()
+    {
+        // Siapkan halaman 'regulasi'
+        $regPage = Page::firstOrCreate(
+            ['slug' => 'regulasi'],
+            ['title' => 'Regulasi', 'content' => []]
+        );
+
+        // Ambil data regulasi dari halaman 'home' (karena numpang simpan disana)
+        // Atau kalau mau rapi, simpan di halaman 'regulasi' sendiri juga boleh.
+        // TAPI biar konsisten dengan sebelumnya (numpang di home), kita ambil dari home.
+        $homePage = Page::where('slug', 'home')->first();
+
+        $regulations = [];
+        if ($homePage) {
+            $json = $homePage->sections()->where('section_key', 'regulation_items')->value('content');
+            $regulations = $json ? json_decode($json, true) : [];
+        }
+
+        return view('redaktur.regulation', [
+            'page' => $regPage,
+            'homePage' => $homePage, // Kirim homePage untuk ID input hidden
+            'items' => $regulations
         ]);
     }
 }

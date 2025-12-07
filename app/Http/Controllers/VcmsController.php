@@ -18,7 +18,7 @@ class VcmsController extends Controller
         // Handle jika database kosong (biar tidak error)
         if (!$page) {
             $page = new Page();
-            $page->id = 0; 
+            $page->id = 0;
         }
 
         return view('home', compact('page'));
@@ -97,12 +97,12 @@ class VcmsController extends Controller
                 foreach ($cardsArray as $index => &$card) {
                     // Key file dari Javascript: 'service_file_0'
                     $fileKey = "service_file_" . $index;
-                    
+
                     if ($request->hasFile($fileKey)) {
                         $file = $request->file($fileKey);
                         $filename = 'doc_' . Str::random(15) . '.' . $file->getClientOriginalExtension();
                         $path = $file->storeAs('documents', $filename, 'public');
-                        
+
                         // Update property 'url'
                         $card['url'] = '/storage/' . $path;
                         $hasFileUpdate = true;
@@ -129,12 +129,12 @@ class VcmsController extends Controller
                 foreach ($galleryArray as $index => &$item) {
                     // Key file dari Javascript: 'gallery_image_0'
                     $fileKey = "gallery_image_" . $index;
-                    
+
                     if ($request->hasFile($fileKey)) {
                         $file = $request->file($fileKey);
                         $filename = 'galeri_' . Str::random(15) . '.' . $file->getClientOriginalExtension();
                         $path = $file->storeAs('uploads/gallery', $filename, 'public');
-                        
+
                         // Update property 'image'
                         $item['image'] = '/storage/' . $path;
                         $hasFileUpdate = true;
@@ -161,12 +161,12 @@ class VcmsController extends Controller
                 foreach ($newsArray as $index => &$item) {
                     // Key file dari Javascript: 'news_image_0'
                     $fileKey = "news_image_" . $index;
-                    
+
                     if ($request->hasFile($fileKey)) {
                         $file = $request->file($fileKey);
                         $filename = 'news_' . Str::random(15) . '.' . $file->getClientOriginalExtension();
                         $path = $file->storeAs('uploads', $filename, 'public');
-                        
+
                         // Update property 'image'
                         $item['image'] = '/storage/' . $path;
                         $hasFileUpdate = true;
