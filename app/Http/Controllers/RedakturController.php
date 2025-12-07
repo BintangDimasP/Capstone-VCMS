@@ -107,7 +107,22 @@ class RedakturController extends Controller
     }
     public function information()
     {
-        $page = Page::firstOrCreate(['slug' => 'informasi'], ['title' => 'Daftar Informasi', 'content' => []]);
-        return view('redaktur.information', compact('page'));
+        // 1. Halaman Informasi (Header)
+        $page = Page::firstOrCreate(
+            ['slug' => 'informasi'],
+            ['title' => 'Daftar Informasi', 'content' => []]
+        );
+
+        // 2. Halaman Home (Sumber Data Dokumen) --- INI YANG KURANG TADI
+        $homePage = Page::firstOrCreate(
+            ['slug' => 'home'],
+            ['title' => 'Beranda', 'content' => []]
+        );
+
+        // 3. Kirim KEDUANYA ke view
+        return view('redaktur.information', [
+            'page' => $page,
+            'homePage' => $homePage // <-- Variabel ini wajib dikirim!
+        ]);
     }
 }

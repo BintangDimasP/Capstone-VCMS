@@ -180,7 +180,7 @@ class VcmsController extends Controller
             }
         }
 
-        return response()->json(['status' => 'success', 'message' => 'Semua data dan file berhasil disimpan!']);
+
 
     // ... (blok news_cards dan gallery_items di atas) ...
 
