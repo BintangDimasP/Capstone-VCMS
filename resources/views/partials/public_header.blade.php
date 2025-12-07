@@ -30,10 +30,10 @@
 
         <nav class="hidden md:flex space-x-8 text-sm font-medium">
             <a href="{{ route('home') }}" class="{{ Request::routeIs('home') ? $activeClass : $linkClass }}">Beranda</a>
-            <a href="#" class="{{ $linkClass }}">Profil</a>
+            <a href="{{ route('profile') }}" class="nav-link transition {{ Request::routeIs('profile') ? $activeClass : $linkClass }}">Profil</a>
             <a href="{{ route('regulasi') }}" class="{{ $linkClass }}">Regulasi</a>
             <a href="#" class="{{ $linkClass }}">Dokumen</a>
-            <a href="#" class="{{ $linkClass }}">Daftar Informasi</a>
+            <a href="{{ route('information') }}" class="{{ $linkClass }}">Daftar Informasi</a>
             <a href="{{ route('publikasi.index') }}" class="{{ Request::routeIs('publikasi.*') ? $activeClass : $linkClass }}">Publikasi</a>
             <a href="https://opendata.jatimprov.go.id/" class="{{ $linkClass }}">Data Publik</a>
         </nav>
@@ -48,8 +48,9 @@
     <div id="mobileMenu" class="md:hidden hidden bg-gray-900 border-t border-gray-700 text-white shadow-lg">
         <nav class="px-6 py-4 flex flex-col space-y-4 text-sm font-medium">
             <a href="{{ route('home') }}" class="hover:text-blue-400">Beranda</a>
-            <a href="#" class="hover:text-blue-400">Profil</a>
-            <a href="#" class="hover:text-blue-400">Regulasi</a>
+            <a href="{{ route('profile') }}" class="hover:text-blue-400">Profil</a>
+            <a href="" class="hover:text-blue-400">Regulasi</a>
+            <a href="{{ route('information') }}" class="hover:text-blue-400">>Daftar Informasi</a>
             <a href="{{ route('publikasi.index') }}" class="hover:text-blue-400">Publikasi</a>
         </nav>
     </div>
