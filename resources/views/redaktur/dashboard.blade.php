@@ -66,6 +66,7 @@
 
 </style>
 
+
     <section id="heroSectionPreview" class="relative py-68 bg-cover bg-center bg-no-repeat group transition-all duration-300"
          style="background-image: url('{{ cms($page->id, 'hero_bg_image', '/storage/images/kominfo.jpg') }}');">
     

@@ -6,6 +6,7 @@ use App\Http\Controllers\VcmsController;
 use App\Http\Controllers\RedakturController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\PublicationController;
 
 
 Route::get('/', [VcmsController::class, 'showHome'])->name('home');
@@ -37,6 +38,8 @@ Route::middleware(['auth', 'can:redaktur'])->prefix('redaktur')->name('redaktur.
     // Ini route yang dipanggil oleh Javascript (AJAX) saat tombol Save diklik
     Route::post('/page/update-batch', [VcmsController::class, 'updatePageBatch'])->name('page.update_batch');
 
+
+    Route::get('/publikasi', [RedakturController::class, 'publication'])->name('publication');
     // --- INTEGRASI ROUTE VCMS KAMU DI SINI ---
     
     // URL jadi: /redaktur/vcms
@@ -51,3 +54,5 @@ Route::middleware(['auth', 'can:redaktur'])->prefix('redaktur')->name('redaktur.
     // Nama route jadi: redaktur.vcms.update
     Route::post('/vcms/{slug}/update', [VcmsController::class, 'update'])->name('vcms.update');
 });
+
+Route::get('/publikasi', [PublicationController::class, 'index'])->name('publikasi.index');
