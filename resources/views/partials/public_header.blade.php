@@ -1,22 +1,22 @@
 @php
     // 1. Cek Route
-    $isHome = Request::is('/'); 
-    
+    $isHome = Request::is('/');
+
     // 2. Setup Kelas CSS Awal
     // Home: Fixed + Transparan
     // Halaman Lain: Fixed + Gray-900 (Gelap) + Shadow
     $headerClass = $isHome ? 'bg-transparent fixed' : 'bg-gray-900 shadow-md fixed';
-    
+
     // 3. Setup Text Color (Konsisten Putih/Abu Terang karena background selalu gelap)
     $textClass   = 'text-white';
     $linkClass   = 'text-gray-300 hover:text-white transition duration-300';
     $activeClass = 'text-white font-bold underline decoration-blue-500 decoration-2 underline-offset-4';
-    
+
     // 4. Logo
     // Pastikan menggunakan Logo versi Putih/Terang agar terlihat di background gelap
-    $logoSrc = 'https://ppid-demo.jatimprov.go.id/images/logo-ppid-dark.png'; 
+    $logoSrc = 'https://ppid-demo.jatimprov.go.id/images/logo-ppid-dark.png';
     // Jika tidak punya logo putih, gunakan yang ada:
-    // $logoSrc = 'https://ppid-demo.jatimprov.go.id/images/logo-ppid-light.png'; 
+    // $logoSrc = 'https://ppid-demo.jatimprov.go.id/images/logo-ppid-light.png';
 @endphp
 
 <header id="mainHeader" class="top-0 left-0 w-full z-50 transition-all duration-300 {{ $headerClass }} {{ $textClass }}">
@@ -31,7 +31,7 @@
         <nav class="hidden md:flex space-x-8 text-sm font-medium">
             <a href="{{ route('home') }}" class="{{ Request::routeIs('home') ? $activeClass : $linkClass }}">Beranda</a>
             <a href="#" class="{{ $linkClass }}">Profil</a>
-            <a href="#" class="{{ $linkClass }}">Regulasi</a>
+            <a href="{{ route('regulasi') }}" class="{{ $linkClass }}">Regulasi</a>
             <a href="#" class="{{ $linkClass }}">Dokumen</a>
             <a href="#" class="{{ $linkClass }}">Daftar Informasi</a>
             <a href="{{ route('publikasi.index') }}" class="{{ Request::routeIs('publikasi.*') ? $activeClass : $linkClass }}">Publikasi</a>
