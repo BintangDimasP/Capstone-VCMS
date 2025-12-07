@@ -31,12 +31,10 @@
         <nav class="hidden md:flex space-x-8 text-sm font-medium">
             <a href="{{ route('home') }}" class="{{ Request::routeIs('home') ? $activeClass : $linkClass }}">Beranda</a>
             <a href="{{ route('profile') }}" class="nav-link transition {{ Request::routeIs('profile') ? $activeClass : $linkClass }}">Profil</a>
-            <a href="{{ route('regulasi') }}" class="{{ $linkClass }}">Regulasi</a>
-            <a href="{{ route('dokumen') }}" class="{{ $linkClass }}">Dokumen</a>
-            <a href="#" class="{{ $linkClass }}">Daftar Informasi</a>
-            <a href="#" class="{{ $linkClass }}">Dokumen</a>
-            <a href="{{ route('information') }}" class="{{ $linkClass }}">Daftar Informasi</a>
-            <a href="{{ route('publikasi.index') }}" class="{{ Request::routeIs('publikasi.*') ? $activeClass : $linkClass }}">Publikasi</a>
+            <a href="{{ route('regulasi') }}" class="nav-link transition {{ Request::routeIs('regulasi') ? $activeClass : $linkClass }}">Regulasi</a>
+            <a href="{{ route('dokumen') }}" class="nav-link transition {{ Request::routeIs('dokumen') ? $activeClass : $linkClass }}">Dokumen</a>
+            <a href="{{ route('information') }}" class="nav-link transition {{ Request::routeIs('information') ? $activeClass : $linkClass }}">Daftar Informasi</a>
+            <a href="{{ route('publikasi.index') }}" class="nav-link transition {{ Request::routeIs('publikasi.*') ? $activeClass : $linkClass }}">Publikasi</a>
             <a href="https://opendata.jatimprov.go.id/" class="{{ $linkClass }}">Data Publik</a>
         </nav>
 
