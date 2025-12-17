@@ -73,13 +73,24 @@
         </div>
     </div>
 
-    <div class="flex gap-4 border-b border-gray-200 mb-8">
-        <button onclick="switchTab('news')" id="tab-news" class="px-6 py-3 border-b-2 border-blue-600 text-blue-600 font-bold transition">
-            <i class="ph ph-newspaper"></i> Kabar Berita
+    <div class="flex gap-2 border-b border-gray-200 mb-8 overflow-x-auto pb-1">
+        
+        <button onclick="switchTab('news')" id="tab-news" 
+            class="group flex items-center gap-2 px-6 py-3 border-b-2 border-blue-600 text-blue-600 font-bold transition-all hover:bg-blue-50 rounded-t-lg focus:outline-none">
+            <div class="p-1.5 rounded-md bg-blue-100 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition">
+                <i class="ph ph-newspaper text-lg"></i>
+            </div>
+            <span>Kabar Berita</span>
         </button>
-        <button onclick="switchTab('agenda')" id="tab-agenda" class="px-6 py-3 border-b-2 border-transparent text-gray-500 hover:text-purple-600 transition">
-            <i class="ph ph-calendar-check"></i> Agenda / Galeri
+        
+        <button onclick="switchTab('agenda')" id="tab-agenda" 
+            class="group flex items-center gap-2 px-6 py-3 border-b-2 border-transparent text-gray-500 hover:text-purple-600 hover:border-purple-300 transition-all hover:bg-purple-50 rounded-t-lg focus:outline-none">
+            <div class="p-1.5 rounded-md bg-gray-100 text-gray-500 group-hover:bg-purple-600 group-hover:text-white transition">
+                <i class="ph ph-calendar-check text-lg"></i>
+            </div>
+            <span>Agenda / Galeri</span>
         </button>
+        
     </div>
 
     <div id="panel-news" class="block">
@@ -196,24 +207,38 @@
             }
             if(!displayImage) displayImage = 'https://placehold.co/600x400?text=No+Image';
 
+            // --- STYLE BARU (MODERN CARD) ---
             let html = `
-                <div class="bg-white rounded-lg shadow border border-gray-200 overflow-hidden flex flex-col h-[320px] relative group hover:shadow-lg transition">
-                    <div class="h-36 bg-gray-200 overflow-hidden relative shrink-0">
-                        <img src="${displayImage}" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-black/50 hidden group-hover:flex items-center justify-center">
-                            <button onclick="editNews(${index})" class="bg-white text-gray-800 px-4 py-1 rounded-full text-sm font-bold shadow hover:bg-gray-100 flex items-center gap-2">
-                                <i class="ph ph-pencil"></i> Edit
+                <div class="group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-xl hover:border-blue-200 transition-all duration-300 transform hover:-translate-y-1 h-full flex flex-col relative">
+                    
+                    <div class="h-48 w-full bg-gray-100 overflow-hidden relative shrink-0">
+                        <img src="${displayImage}" class="w-full h-full object-cover transition duration-700 group-hover:scale-110">
+                        
+                        <div class="absolute top-3 left-3 bg-white/90 backdrop-blur-sm text-gray-800 text-xs font-bold px-3 py-1.5 rounded-lg shadow-sm border border-gray-100 flex items-center gap-1">
+                            <i class="ph ph-calendar text-blue-600"></i> ${item.date || '-'}
+                        </div>
+
+                        <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center backdrop-blur-[2px]">
+                            <button onclick="editNews(${index})" class="bg-white text-gray-900 px-5 py-2 rounded-full font-bold shadow-lg hover:bg-blue-50 transition transform hover:scale-105 flex items-center gap-2">
+                                <i class="ph ph-pencil-simple text-blue-600"></i> Edit Berita
                             </button>
                         </div>
                     </div>
-                    <div class="p-4 flex-1 flex flex-col">
-                        <div class="text-xs text-blue-600 font-bold mb-1 uppercase tracking-wider">${item.date || '-'}</div>
-                        <h4 class="font-bold text-gray-800 text-sm leading-tight line-clamp-2 h-[2.5rem] overflow-hidden">${item.title}</h4>
-                        <div class="text-gray-500 text-xs mt-2 line-clamp-3 h-[3.5rem] overflow-hidden">${item.desc}</div>
+
+                    <div class="p-5 flex flex-col flex-1">
+                        <h4 class="font-bold text-gray-800 text-lg leading-snug line-clamp-2 mb-2 group-hover:text-blue-600 transition">
+                            ${item.title}
+                        </h4>
+                        <div class="text-gray-500 text-sm leading-relaxed line-clamp-3 mb-4 h-[4.5rem] overflow-hidden">
+                            ${item.desc}
+                        </div>
                         
-                        <div class="mt-auto pt-3 border-t border-gray-100 flex justify-between items-center">
-                            <span class="text-xs text-gray-400 font-medium">Berita</span>
-                            <button onclick="deleteNews(${index})" class="text-red-500 hover:text-red-700 text-xs font-bold uppercase tracking-wide">Hapus</button>
+                        <div class="mt-auto pt-4 border-t border-dashed border-gray-200 flex justify-between items-center">
+                            <span class="text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded">Berita</span>
+                            
+                            <button onclick="deleteNews(${index})" class="text-gray-400 hover:text-red-600 text-sm font-medium flex items-center gap-1 transition">
+                                <i class="ph ph-trash"></i> Hapus
+                            </button>
                         </div>
                     </div>
                 </div>`;
@@ -295,6 +320,7 @@
         const container = document.getElementById('galleryGrid');
         if(!container) return;
         container.innerHTML = '';
+        
         galleryData.forEach((item, index) => {
             let displayImage = item.image;
             let isNewFile = false;
@@ -304,28 +330,43 @@
                 isNewFile = true;
             }
             
-            let bgStyle = (displayImage && displayImage !== '') ? `background-image: url('${displayImage}');` : 'background-color: #eee;';
+            let bgStyle = (displayImage && displayImage !== '') ? `background-image: url('${displayImage}');` : '';
+            let bgColor = (displayImage && displayImage !== '') ? 'bg-white' : 'bg-gray-100';
             
+            // --- STYLE BARU (GALLERY CARD) ---
             let html = `
-                <div class="h-48 rounded-lg shadow-sm border border-gray-200 bg-cover bg-center relative group hover:shadow-md transition" style="${bgStyle}">
-                    ${ (!displayImage || displayImage === '') ? '<div class="flex items-center justify-center h-full text-gray-500 font-medium text-xs">No Image</div>' : '' }
+                <div class="relative group h-64 rounded-2xl overflow-hidden shadow-sm border border-gray-200 ${bgColor} bg-cover bg-center hover:shadow-lg transition-all duration-300" style="${bgStyle}">
                     
-                    <div class="absolute inset-0 bg-black/40 hidden group-hover:flex items-center justify-center gap-2 transition-opacity">
-                        <button onclick="editGalleryItem(${index})" class="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded shadow transition transform hover:scale-105" title="Ganti Foto">
-                            <i class="ph ph-pencil"></i>
-                        </button>
-                        <button onclick="deleteGalleryItem(${index})" class="bg-red-600 hover:bg-red-700 text-white p-2 rounded shadow transition transform hover:scale-105" title="Hapus">
-                            <i class="ph ph-trash"></i>
-                        </button>
+                    ${ (!displayImage || displayImage === '') ? 
+                        '<div class="flex flex-col items-center justify-center h-full text-gray-400"><i class="ph ph-image text-3xl mb-2"></i><span class="text-xs font-medium">Belum ada foto</span></div>' 
+                        : '' 
+                    }
+
+                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col items-center justify-center gap-3 backdrop-blur-[2px]">
+                        <span class="text-white text-xs font-bold uppercase tracking-wider mb-1">Kelola Foto</span>
+                        <div class="flex gap-2">
+                            <button onclick="editGalleryItem(${index})" class="bg-white hover:bg-gray-100 text-gray-900 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition transform hover:scale-110" title="Ganti Foto">
+                                <i class="ph ph-camera text-lg"></i>
+                            </button>
+                            <button onclick="deleteGalleryItem(${index})" class="bg-red-600 hover:bg-red-700 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition transform hover:scale-110" title="Hapus Foto">
+                                <i class="ph ph-trash text-lg"></i>
+                            </button>
+                        </div>
                     </div>
                     
-                    <div class="absolute bottom-2 left-2 bg-purple-600 text-white text-[10px] px-2 py-0.5 rounded shadow">Agenda</div>
-                    ${isNewFile ? '<div class="absolute top-2 right-2 bg-green-500 text-white text-[10px] px-2 py-0.5 rounded shadow">Baru</div>' : ''}
+                    <div class="absolute bottom-3 left-3">
+                         <span class="bg-purple-600/90 backdrop-blur text-white text-[10px] font-bold px-2.5 py-1 rounded-md shadow-sm">
+                            AGENDA
+                         </span>
+                    </div>
+
+                    ${isNewFile ? 
+                        '<div class="absolute top-3 right-3 bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm animate-pulse">BARU</div>' 
+                        : ''}
                 </div>`;
             container.innerHTML += html;
         });
     }
-
     function handleGalleryUpload(input) {
         if (input.files && input.files[0]) {
             let file = input.files[0];

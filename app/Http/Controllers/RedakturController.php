@@ -7,9 +7,6 @@ use App\Models\Page;
 
 class RedakturController extends Controller
 {
-    // =========================================================
-    // 1. DASHBOARD REDAKTUR (Editor Home)
-    // =========================================================
     public function dashboard()
     {
         $page = Page::firstOrCreate(
@@ -23,9 +20,7 @@ class RedakturController extends Controller
         return view('redaktur.dashboard', compact('page'));
     }
 
-    // =========================================================
-    // 2. HALAMAN PUBLIKASI (Master Data Berita & Agenda)
-    // =========================================================
+
     public function publication()
     {
         // 1. Siapkan Halaman 'Publikasi' (Untuk simpan Judul/Deskripsi Header Publikasi)

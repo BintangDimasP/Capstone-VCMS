@@ -32,43 +32,37 @@
     <!-- 2 -->
     <section class="py-16 bg-gray-100">
     <div class="max-w-4xl mx-auto text-center px-4">
-    
-        <h2 class="text-2xl md:text-3xl font-bold text-gray-800">
-            {!! cms($page->id, 'search_title', 'Pencarian Informasi') !!}
-        </h2>
+        <div class="cms-editable inline-block mb-2" onclick="openEditor('search_title')" id="wrapper_search_title">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-800">
+                {!! cms($page->id, 'search_title', 'Pencarian Informasi') !!}
+            </h2>
+        </div>
+        <br>
+        <div class="cms-editable inline-block mb-6" onclick="openEditor('search_desc')" id="wrapper_search_desc">
+            <p class="text-gray-500 mt-2">
+                {!! cms($page->id, 'search_desc', 'Temukan Informasi Publik Jawa Timur') !!}
+            </p>
+        </div>
 
-        <p class="text-gray-500 mt-2">
-            {!! cms($page->id, 'search_desc', 'Temukan Informasi Publik Jawa Timur') !!}
-        </p>
-
-        <form method="POST" 
-              action="https://ppid-demo.jatimprov.go.id/kategori/blog/search#blogdetail"
-              class="mt-6">
-            @csrf
-
-            <div class="flex items-center bg-white rounded-full shadow-md overflow-hidden mx-auto max-w-xl">
-                <input 
-                    type="text" 
-                    name="keywords" 
-                    required
-                    placeholder="Masukkan kata kunci..."
-                    class="flex-1 px-5 py-3 focus:outline-none text-gray-700"
-                >
-
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 flex items-center justify-center transition">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    </svg>
-                </button>
-            </div>
-        </form>
-
+        <div class="mt-6"> 
+    <div class="flex items-center bg-white rounded-full shadow-md overflow-hidden mx-auto max-w-xl border-2 border-transparent focus-within:border-blue-500 transition-all">
+        <input 
+            type="text" 
+            id="liveSearchInput" 
+            placeholder="Ketik untuk mencari berita..."
+            class="flex-1 px-5 py-3 focus:outline-none text-gray-700"
+        >
+        <button type="button" id="btnSearchClick" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 transition">
+            <i class="ph ph-magnifying-glass text-xl"></i>
+        </button>
+    </div>
+    <p id="searchStatus" class="text-xs text-gray-400 mt-3 hidden"></p>
+</div>
     </div>
 </section>
 
     <!-- 3 -->
-    <section class="py-20 bg-gray-50">
+    <section id="services" class="py-20 bg-gray-50">
     <div class="max-w-6xl mx-auto px-6">
         
         <h2 class="text-2xl md:text-3xl font-bold text-gray-800 text-center">
@@ -100,10 +94,9 @@
             @foreach($cards as $card)
     <a href="{{ $card['url'] ?? '#' }}" target="_blank" class="block p-8 border border-blue-200 rounded-2xl shadow-sm hover:shadow-md transition bg-white text-center min-w-0 w-full h-[350px] flex flex-col mx-auto group">
         
-        <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-xl bg-blue-50 shrink-0 group-hover:bg-blue-100 transition">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-blue-600">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a2.625 2.625 0 00-2.625-2.625h-9a2.625 2.625 0 00-2.625 2.625v2.625M12 7.5v9m-4.5-4.5h9" />
-            </svg>
+        <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-xl bg-blue-50 shrink-0 group-hover:bg-blue-100 transition"> 
+            <i class="ph ph-file-pdf text-3xl text-blue-500"></i>
+                        
         </div>
 
         <h3 class="text-xl font-semibold mb-3 h-[60px] overflow-hidden flex items-center justify-center px-1 break-words leading-tight group-hover:text-blue-600 transition">
@@ -141,6 +134,7 @@
                 if(!$gallery || count($gallery) == 0) {
                     $gallery = [ ['image'=>''], ['image'=>''], ['image'=>''] ];
                 }
+                $gallery = array_slice($gallery, 0, 3);
             @endphp
 
             @foreach($gallery as $item)
@@ -177,18 +171,18 @@
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8" data-aos="fade-up" data-aos-delay="100">
             @php
-                // 1. Ambil data dari JSON Database
                 $newsJson = cms($page->id, 'news_cards', '[]');
                 $news = json_decode($newsJson, true);
-                
-                // 2. Data Dummy jika kosong
+              
                 if(!$news || count($news) == 0) {
                     $news = [
-                        ['title' => 'Judul Berita Contoh', 'date' => '2025-01-01', 'image' => '', 'desc' => 'Deskripsi singkat berita ini...', 'url' => '#'],
-                        ['title' => 'Berita Terbaru Hari Ini', 'date' => '2025-01-02', 'image' => '', 'desc' => 'Deskripsi singkat berita ini...', 'url' => '#'],
-                        ['title' => 'Update Kegiatan Dinas', 'date' => '2025-01-03', 'image' => '', 'desc' => 'Deskripsi singkat berita ini...', 'url' => '#']
+                        ['title' => 'Judul Berita Contoh', 'date' => '2025-01-01', 'image' => '', 'desc' => '...'],
+                        ['title' => 'Berita Terbaru Hari Ini', 'date' => '2025-01-02', 'image' => '', 'desc' => '...'],
+                        ['title' => 'Update Kegiatan Dinas', 'date' => '2025-01-03', 'image' => '', 'desc' => '...']
                     ];
                 }
+
+                $news = array_slice($news, 0, 3);
             @endphp
 
             @foreach($news as $item)
@@ -223,14 +217,239 @@
         </div>
 
         <div class="mt-12 text-center">
-            <a href="#" class="inline-block px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition shadow-lg hover:shadow-blue-500/30 font-medium">
-                Lihat Semua Berita <i class="bi bi-arrow-right ml-2"></i>
-            </a>
-        </div>
+    <a href="{!! cms($page->id, 'news_btn_url', route('publikasi.index')) !!}" 
+       class="inline-block px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition shadow-lg hover:shadow-blue-500/30 font-medium">
+       
+       {!! cms($page->id, 'news_btn_text', 'Lihat Semua Berita') !!} 
+       
+       <i class="bi bi-arrow-right ml-2"></i>
+    </a>
+</div>
 
     </div>
 </section>
 
 @endsection
 
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const searchInput = document.getElementById('liveSearchInput');
+    const searchBtn = document.getElementById('btnSearchClick');
+    const searchStatus = document.getElementById('searchStatus');
 
+    // Fungsi untuk mencari dan scroll ke konten
+    function searchAndScroll() {
+        const keyword = searchInput.value.trim().toLowerCase();
+        
+        if (!keyword) {
+            showStatus('Masukkan kata kunci pencarian', 'warning');
+            return;
+        }
+
+        // Reset highlight sebelumnya
+        removeAllHighlights();
+
+        // Array untuk menyimpan elemen yang cocok
+        let matchedElements = [];
+
+        // 1. Cari di bagian Services (Layanan Informasi)
+        const serviceCards = document.querySelectorAll('#services .grid > a');
+        serviceCards.forEach(card => {
+            const title = card.querySelector('h3')?.textContent.toLowerCase() || '';
+            const desc = card.querySelector('.text-gray-500')?.textContent.toLowerCase() || '';
+            
+            if (title.includes(keyword) || desc.includes(keyword)) {
+                matchedElements.push({
+                    element: card,
+                    score: title.includes(keyword) ? 2 : 1
+                });
+            }
+        });
+
+        // 2. Cari di bagian News (Kabar Berita)
+        const newsCards = document.querySelectorAll('#news .grid > div');
+        newsCards.forEach(card => {
+            const title = card.querySelector('h3')?.textContent.toLowerCase() || '';
+            
+            if (title.includes(keyword)) {
+                matchedElements.push({
+                    element: card,
+                    score: 3 // News diberi score lebih tinggi
+                });
+            }
+        });
+
+        // Urutkan berdasarkan score (relevansi)
+        matchedElements.sort((a, b) => b.score - a.score);
+
+        if (matchedElements.length > 0) {
+            // Highlight dan scroll ke elemen pertama yang cocok
+            const firstMatch = matchedElements[0].element;
+            highlightElement(firstMatch);
+            
+            // Smooth scroll ke elemen
+            const offset = 100; // Offset dari top
+            const elementPosition = firstMatch.getBoundingClientRect().top + window.pageYOffset;
+            const offsetPosition = elementPosition - offset;
+
+            window.scrollTo({
+                top: offsetPosition,
+                behavior: 'smooth'
+            });
+
+            // Highlight semua elemen yang cocok
+            matchedElements.forEach(item => {
+                highlightElement(item.element);
+            });
+
+            
+        } else {
+            showStatus(`Tidak ada hasil untuk "${keyword}"`, 'error');
+        }
+    }
+
+    // Fungsi untuk highlight elemen
+    function highlightElement(element) {
+        element.classList.add('search-highlight');
+        
+        // Hapus highlight setelah 3 detik
+        setTimeout(() => {
+            element.classList.remove('search-highlight');
+        }, 3000);
+    }
+
+    // Fungsi untuk menghapus semua highlight
+    function removeAllHighlights() {
+        document.querySelectorAll('.search-highlight').forEach(el => {
+            el.classList.remove('search-highlight');
+        });
+    }
+
+    // Fungsi untuk menampilkan status
+    function showStatus(message, type) {
+        searchStatus.textContent = message;
+        searchStatus.classList.remove('hidden', 'text-red-500', 'text-green-500', 'text-yellow-500');
+        
+        if (type === 'error') {
+            searchStatus.classList.add('text-red-500');
+        } else if (type === 'success') {
+            searchStatus.classList.add('text-green-500');
+        } else {
+            searchStatus.classList.add('text-yellow-500');
+        }
+
+        // Sembunyikan status setelah 5 detik
+        setTimeout(() => {
+            searchStatus.classList.add('hidden');
+        }, 5000);
+    }
+
+    // Event listener untuk button search
+    searchBtn.addEventListener('click', searchAndScroll);
+
+    // Event listener untuk Enter key
+    searchInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            searchAndScroll();
+        }
+    });
+
+    // CSS untuk highlight effect (tambahkan via JavaScript)
+    const style = document.createElement('style');
+    style.textContent = `
+        .search-highlight {
+            animation: highlightPulse 0.6s ease-in-out;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.5) !important;
+            transform: scale(1.02);
+            transition: all 0.3s ease;
+        }
+        
+        @keyframes highlightPulse {
+            0%, 100% {
+                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+            }
+            50% {
+                box-shadow: 0 0 0 8px rgba(59, 130, 246, 0.3);
+            }
+        }
+    `;
+    document.head.appendChild(style);
+
+    const scrollTopBtn = document.createElement('button');
+    scrollTopBtn.id = 'scrollTopBtn';
+    scrollTopBtn.innerHTML = '<i class="ph ph-arrow-up text-2xl"></i>';
+    scrollTopBtn.setAttribute('aria-label', 'Scroll to top');
+    document.body.appendChild(scrollTopBtn);
+
+ 
+    const scrollBtnStyle = document.createElement('style');
+    scrollBtnStyle.textContent = `
+        #scrollTopBtn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            z-index: 9999;
+        }
+        
+        #scrollTopBtn.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        #scrollTopBtn:hover {
+            background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
+            transform: translateY(-3px);
+        }
+        
+        #scrollTopBtn:active {
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 768px) {
+            #scrollTopBtn {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+            }
+        }
+    `;
+    document.head.appendChild(scrollBtnStyle);
+
+    // Tampilkan/sembunyikan tombol saat scroll
+    window.addEventListener('scroll', function() {
+        if (window.pageYOffset > 300) {
+            scrollTopBtn.classList.add('show');
+        } else {
+            scrollTopBtn.classList.remove('show');
+        }
+    });
+
+    // Event listener untuk scroll to top
+    scrollTopBtn.addEventListener('click', function() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+});
+</script>
+@endpush

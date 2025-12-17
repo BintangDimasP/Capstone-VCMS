@@ -15,19 +15,22 @@ class RegulationController extends Controller
     // 1. TAMPILKAN HALAMAN PUBLIC
     // =========================================================
     public function showRegulation()
-    {
-        // Ambil Page 'regulasi'
-        $page = Page::where('slug', 'regulasi')->firstOrCreate([
-            'slug' => 'regulasi',
-            'title' => 'Regulasi'
-        ]);
+{
+    // Ambil Page 'regulasi'
+    $page = Page::firstOrCreate(
+        ['slug' => 'regulasi'], // Search condition
+        [
+            'title' => 'Regulasi',
+            'content' => [] // <--- ADD THIS: Provide a default empty array/json for content
+        ]
+    );
 
-        // Ambil data regulasi LANGSUNG dari page regulasi (Bukan Home lagi)
-        $json = $page->sections()->where('section_key', 'regulation_items')->value('content');
-        $regulations = $json ? json_decode($json, true) : [];
+    // Ambil data regulasi LANGSUNG dari page regulasi (Bukan Home lagi)
+    $json = $page->sections()->where('section_key', 'regulation_items')->value('content');
+    $regulations = $json ? json_decode($json, true) : [];
 
-        return view('regulation', compact('page', 'regulations'));
-    }
+    return view('regulation', compact('page', 'regulations'));
+}
 
     // =========================================================
     // 2. SIMPAN DATA (UPDATE)
