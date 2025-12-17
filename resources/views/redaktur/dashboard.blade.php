@@ -66,20 +66,13 @@
 
 </style>
 
-
-    <section id="heroSectionPreview" class="relative py-68 bg-cover bg-center bg-no-repeat group transition-all duration-300"
+<section id="heroSectionPreview" class="relative py-68 bg-cover bg-center bg-no-repeat group transition-all duration-300"
          style="background-image: url('{{ cms($page->id, 'hero_bg_image', '/storage/images/kominfo.jpg') }}');">
     
-    <div class="absolute top-5 right-5 z-30 hidden group-hover:block animate-fade-in">
-        <button onclick="openImageEditor('hero_bg_image')" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-lg font-bold flex items-center gap-2 transition transform active:scale-95">
-            <i class="ph ph-image"></i> Ganti Background
-        </button>
-        <input type="hidden" id="val_hero_bg_image" value="{{ cms($page->id, 'hero_bg_image', '/storage/images/kominfo.jpg') }}">
-    </div>
-
-    <div class="absolute inset-0 bg-black/40 transition-opacity group-hover:bg-black/60"></div>
+    <div class="absolute inset-0 bg-black/40 transition-opacity group-hover:bg-black/60 z-0 pointer-events-none"></div>
     
-    <div class="relative max-w-6xl mx-auto px-6 text-left text-white">
+    <div class="relative max-w-6xl mx-auto px-6 text-left text-white z-10">
+        
         <div class="cms-editable mb-12 inline-block" onclick="openEditor('hero_title')" id="wrapper_hero_title">
             <h1 class="text-4xl font-bold">
                 {!! cms($page->id, 'hero_title', 'Kementerian Komunikasi dan Informatika') !!}
@@ -88,19 +81,28 @@
 
         <div class="cms-editable mb-12 block" onclick="openEditor('hero_desc')" id="wrapper_hero_desc">
             <p class="text-lg text-gray-200 md:text-justify break-all max-w-2xl">
-                {!! cms($page->id, 'hero_desc', 'Dinas Komunikasi dan Informatika Kota Surabaya yang bertugas mengelola informasi publik...') !!}
+                {!! cms($page->id, 'hero_desc', 'Dinas Komunikasi dan Informatika...') !!}
             </p>
         </div>
 
         <div class="cms-editable inline-block" onclick="openLinkEditor('hero_btn_text', 'hero_btn_url')" id="wrapper_hero_btn">
-            <a href="javascript:void(0)" class="inline-block px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition shadow-lg font-medium hover:shadow-blue-500/30">
+            <a href="javascript:void(0)" class="inline-block px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition shadow-lg font-medium hover:shadow-blue-500/30 pointer-events-none">
                 <span id="preview_hero_btn_text">{!! cms($page->id, 'hero_btn_text', 'Lihat Selengkapnya') !!}</span>
             </a>
             <input type="hidden" id="val_hero_btn_url" value="{!! cms($page->id, 'hero_btn_url', '#') !!}">
         </div>
     </div>
-</section>
 
+    <div class="absolute top-5 right-5 z-50 hidden group-hover:block animate-fade-in">
+        <button type="button" 
+                onclick="event.stopPropagation(); window.openImageEditor('hero_bg_image')" 
+                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-lg font-bold flex items-center gap-2 transition transform active:scale-95 cursor-pointer">
+            <i class="ph ph-image"></i> Ganti Background
+        </button>
+        <input type="hidden" id="val_hero_bg_image" value="{{ cms($page->id, 'hero_bg_image', '/storage/images/kominfo.jpg') }}">
+    </div>
+
+</section>
 <!-- 2 -->
 <section class="py-16 bg-gray-200">
     <div class="max-w-4xl mx-auto text-center px-4">
@@ -152,7 +154,7 @@
         </div>
 
         <div class="absolute top-10 right-10 hidden group-hover:block z-10">
-            <button onclick="addServiceCard()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow-lg font-bold flex items-center gap-2 transition transform active:scale-95">
+            <button onclick="addServiceCard()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-lg font-bold flex items-center gap-2 transition transform active:scale-95">
                 <i class="ph ph-plus"></i> Tambah Layanan
             </button>
         </div>
@@ -181,7 +183,7 @@
         <div class="absolute top-10 right-10 hidden group-hover:block z-10">
             <input type="file" id="galleryUploadInput" accept="image/*" class="hidden" onchange="handleGalleryUpload(this)">
             
-            <button onclick="document.getElementById('galleryUploadInput').click()" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg shadow-lg font-bold flex items-center gap-2 transition transform active:scale-95">
+            <button onclick="document.getElementById('galleryUploadInput').click()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-lg font-bold flex items-center gap-2 transition transform active:scale-95">
                 <i class="ph ph-image-square"></i> Tambah Foto
             </button>
         </div>
@@ -190,23 +192,21 @@
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="galleryGrid"></div>
 
-    <div class="mt-12 text-center">
-        
-        <div class="cms-editable inline-block" 
-             onclick="openLinkEditor('gallery_btn_text', 'gallery_btn_url')" 
-             id="wrapper_gallery_btn">
-            
-            <a href="javascript:void(0)" class="inline-block px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition shadow-lg font-medium pointer-events-none">
-                <span id="preview_gallery_btn_text">
-                    {!! cms($page->id, 'gallery_btn_text', 'Lihat Semua Foto') !!}
-                </span>
-                <i class="ph ph-arrow-right ml-2"></i>
-            </a>
+        <div class="mt-12 text-center">
+            <div class="cms-editable inline-block" 
+                 onclick="openLinkEditor('gallery_btn_text', 'gallery_btn_url')" 
+                 id="wrapper_gallery_btn">
+                
+                <a href="javascript:void(0)" class="inline-block px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition shadow-lg font-medium pointer-events-none">
+                    <span id="preview_gallery_btn_text">
+                        {!! cms($page->id, 'gallery_btn_text', 'Lihat Semua Foto') !!}
+                    </span>
+                    <i class="ph ph-arrow-right ml-2"></i>
+                </a>
 
-            <input type="hidden" id="val_gallery_btn_url" value="{!! cms($page->id, 'gallery_btn_url', '#') !!}">
+                <input type="hidden" id="val_gallery_btn_url" value="{!! cms($page->id, 'gallery_btn_url', '#') !!}">
+            </div>
         </div>
-
-    </div>
 
     </div>
 </section>
@@ -216,14 +216,13 @@
     <div class="max-w-6xl mx-auto px-6">
         
         <div class="text-center mb-12">
-            
             <div class="cms-editable inline-block mb-2" onclick="openEditor('news_title')" id="wrapper_news_title">
                 <h2 class="text-3xl font-semibold">
                     {!! cms($page->id, 'news_title', 'Berita Terkini') !!}
                 </h2>
             </div>
-
-            <br> <div class="cms-editable inline-block mb-4" onclick="openEditor('news_desc')" id="wrapper_news_desc">
+            <br> 
+            <div class="cms-editable inline-block mb-4" onclick="openEditor('news_desc')" id="wrapper_news_desc">
                 <p class="text-gray-500">
                     {!! cms($page->id, 'news_desc', 'Ikuti perkembangan kegiatan dan informasi terbaru.') !!}
                 </p>
@@ -239,6 +238,24 @@
         <input type="hidden" id="json_news_cards" value="{{ cms($page->id, 'news_cards', '[]') }}">
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8" id="newsGrid"></div>
+
+        <div class="mt-12 text-center">
+            
+            <div class="cms-editable inline-block" 
+                 onclick="openLinkEditor('news_btn_text', 'news_btn_url')" 
+                 id="wrapper_news_btn">
+                
+                <a href="javascript:void(0)" class="inline-block px-8 py-3 bg-blue-600 text-white rounded-full hover:bg-blue-700 transition shadow-lg font-medium pointer-events-none">
+                    <span id="preview_news_btn_text">
+                        {!! cms($page->id, 'news_btn_text', 'Lihat Semua Berita') !!}
+                    </span>
+                    <i class="ph ph-arrow-right ml-2"></i>
+                </a>
+
+                <input type="hidden" id="val_news_btn_url" value="{!! cms($page->id, 'news_btn_url', '#') !!}">
+            </div>
+
+        </div>
 
     </div>
 </section>
@@ -296,40 +313,50 @@
 <div id="cardEditorModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-[1000] transition-opacity duration-300">
     <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg mx-auto overflow-hidden transform transition-all scale-100">
         
-        <div class="bg-gradient-to-r from-purple-600 to-purple-400 text-white px-6 py-4 flex items-center justify-between shadow-md">
-            <h3 class="text-lg font-bold tracking-wide flex items-center gap-2"><i class="ph ph-cards"></i> Edit Layanan</h3>
-            <button onclick="closeCardModal()" class="text-white/80 hover:text-white"><i class="ph ph-x text-lg"></i></button>
+        <div class="bg-gradient-to-r from-blue-600 to-blue-400 text-white px-6 py-4 flex items-center justify-between shadow-md">
+            <h3 class="text-lg font-bold tracking-wide flex items-center gap-2">
+                <i class="ph ph-cards"></i> Edit Layanan
+            </h3>
+            <button onclick="closeCardModal()" class="text-white/80 hover:text-white transition">
+                <i class="ph ph-x text-lg"></i>
+            </button>
         </div>
         
         <div class="px-6 py-6 space-y-4">
-            <input type="hidden" id="cardIndex"> <div>
+            <input type="hidden" id="cardIndex"> 
+            
+            <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Judul Layanan</label>
-                <input type="text" id="cardInputTitle" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500">
+                <input type="text" id="cardInputTitle" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
             </div>
+
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-2">Deskripsi Singkat</label>
-                <textarea id="cardInputDesc" rows="3" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-purple-500"></textarea>
+                <textarea id="cardInputDesc" rows="3" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition"></textarea>
             </div>
+
             <div>
-    <label class="block text-sm font-semibold text-gray-700 mb-2">Upload Dokumen (PDF)</label>
-    
-    <input type="file" id="cardInputFile" accept="application/pdf" 
-           class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-bold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 border border-gray-300 rounded-lg cursor-pointer">
-    
-    <div class="mt-2 text-xs text-gray-500 bg-gray-100 p-2 rounded flex justify-between items-center">
-        <span>File saat ini:</span>
-        <a id="currentFileLink" href="#" target="_blank" class="text-blue-600 hover:underline font-bold truncate max-w-[200px]">
-            Belum ada file
-        </a>
-    </div>
-</div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Upload Dokumen (PDF)</label>
+                
+                <input type="file" id="cardInputFile" accept="application/pdf" 
+                       class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-bold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 border border-gray-300 rounded-lg cursor-pointer transition">
+                
+                <div class="mt-2 text-xs text-gray-500 bg-gray-50 p-2 rounded flex justify-between items-center border border-gray-200">
+                    <span>File saat ini:</span>
+                    <a id="currentFileLink" href="#" target="_blank" class="text-blue-600 hover:underline font-bold truncate max-w-[200px]">
+                        Belum ada file
+                    </a>
+                </div>
+            </div>
         </div>
 
         <div class="bg-gray-50 px-6 py-4 flex justify-between border-t border-gray-100">
-            <button onclick="deleteCard()" class="text-red-500 hover:text-red-700 font-bold text-sm">Hapus Kartu Ini</button>
+            <button onclick="deleteCard()" class="text-red-500 hover:text-red-700 font-bold text-sm transition flex items-center gap-1">
+                <i class="ph ph-trash"></i> Hapus
+            </button>
             <div class="flex gap-2">
-                <button onclick="closeCardModal()" class="px-4 py-2 text-gray-600 bg-white border rounded-lg">Batal</button>
-                <button onclick="applyCardChange()" class="px-4 py-2 bg-purple-600 text-white font-bold rounded-lg hover:bg-purple-700">Simpan</button>
+                <button onclick="closeCardModal()" class="px-4 py-2 text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 transition shadow-sm font-medium">Batal</button>
+                <button onclick="applyCardChange()" class="px-4 py-2 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 shadow-md transition transform active:scale-95">Simpan</button>
             </div>
         </div>
     </div>
@@ -376,13 +403,13 @@
 </div>
 
     <div id="linkEditorModal" 
-        class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-[1000] transition-opacity duration-300">
+        class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-[40] transition-opacity duration-300">
     
         <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg mx-auto overflow-hidden transform transition-all scale-100">
         
             <div class="bg-gradient-to-r from-blue-600 to-blue-400 text-white px-6 py-4 flex items-center justify-between shadow-md">
                 <h3 class="text-lg font-bold tracking-wide flex items-center gap-2">
-                    <i class="ph ph-link"></i> Edit Tombol & Link
+                    <i class="ph ph-link"></i> Edit Button
                 </h3>
                 <button onclick="closeLinkModal()" class="text-white/80 hover:text-white hover:bg-white/20 rounded-full p-1 transition">
                     <i class="ph ph-x text-lg"></i>
@@ -399,17 +426,17 @@
                 </div>
 
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">Link Tujuan (URL)</label>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Input URL</label>
                     <div class="relative">
-                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
-                            <i class="ph ph-globe"></i>
-                        </span>
                         <input type="text" id="linkInputUrl" placeholder="https://..." 
                             class="w-full pl-10 pr-4 py-2.5 border border-gray-300 rounded-lg text-gray-800 bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-transparent transition">
+                        
+                        <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400 pointer-events-none">
+                            <i class="ph ph-globe text-lg"></i>
+                        </span>
                     </div>
                     <p class="text-xs text-gray-400 mt-1.5 ml-1">Contoh: <code>https://google.com</code> atau <code>/profil</code></p>
                 </div>
-            </div>
 
             <div class="bg-gray-50 px-6 py-4 flex justify-end gap-3 border-t border-gray-100">
                 <button onclick="closeLinkModal()" 
@@ -421,11 +448,12 @@
                     <i class="ph ph-floppy-disk"></i> Simpan Tombol
                 </button>
             </div>
+</div>
     </div>
 </div>
 
 <!-- 4 -->
-<div id="imageEditorModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-[1000] transition-opacity duration-300">
+<div id="imageEditorModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm hidden items-center justify-center z-[50] transition-opacity duration-300">
     <div class="bg-white rounded-xl shadow-2xl w-full max-w-lg mx-auto overflow-hidden transform transition-all scale-100">
         
         <div class="bg-gradient-to-r from-blue-600 to-blue-400 text-white px-6 py-4 flex items-center justify-between shadow-md">
@@ -441,18 +469,20 @@
             <input type="hidden" id="imageKey">
 
             <label class="block text-sm font-semibold text-gray-700 mb-2">Pilih File Gambar Baru</label>
+            
             <input type="file" id="imageInputFile" accept="image/*" 
                    class="block w-full text-sm text-gray-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-bold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition cursor-pointer border border-gray-300 rounded-lg">
             
             <p class="text-sm font-semibold text-gray-700 mt-4 mb-2">Preview:</p>
             <div class="w-full h-48 bg-gray-100 rounded-lg border border-gray-300 flex items-center justify-center overflow-hidden bg-cover bg-center" 
-                 id="imagePreviewBox" 
-                 style="background-image: url('/storage/images/placeholder.jpg');">
-                 </div>
+                 id="imagePreviewBox">
+            </div>
         </div>
 
         <div class="bg-gray-50 px-6 py-4 flex justify-end gap-3 border-t border-gray-100">
-            <button onclick="closeImageModal()" class="px-5 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition shadow-sm">Batal</button>
+            <button onclick="closeImageModal()" class="px-5 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition shadow-sm">
+                Batal
+            </button>
             <button onclick="applyImageChangeLocal()" class="px-5 py-2 text-sm font-bold text-white bg-gradient-to-r from-blue-600 to-blue-500 rounded-lg hover:from-blue-700 hover:to-blue-600 shadow-md transform active:scale-95 transition flex items-center gap-2">
                 <i class="ph ph-check"></i> Terapkan Gambar
             </button>
@@ -559,38 +589,102 @@
     }
 
 
-    // =========================================================
-    // 4. IMAGE EDITOR LOGIC (BACKGROUND HERO)
-    // =========================================================
-    function openImageEditor(key) {
-        document.getElementById('imageKey').value = key;
-        document.getElementById('imageInputFile').value = ''; 
-        let currentUrl = document.getElementById('val_' + key).value;
-        document.getElementById('imagePreviewBox').style.backgroundImage = `url('${currentUrl}')`;
-        document.getElementById('imageEditorModal').classList.remove('hidden');
-        document.getElementById('imageEditorModal').classList.add('flex');
-    }
-    function closeImageModal() {
-        document.getElementById('imageEditorModal').classList.add('hidden');
-        document.getElementById('imageEditorModal').classList.remove('flex');
-    }
-    document.getElementById('imageInputFile').addEventListener('change', function(e) {
-        let file = e.target.files[0];
-        if(file) {
-            let reader = new FileReader();
-            reader.onload = function(e) { document.getElementById('imagePreviewBox').style.backgroundImage = `url('${e.target.result}')`; }
-            reader.readAsDataURL(file);
+    // Make sure these are defined globally at the top of your script
+    // let pendingChanges = {};
+    // function updateSaveButtonState() { ... }
+
+    window.openImageEditor = function(key) {
+        console.log("Opening image editor for key:", key); // Debug log
+
+        const modal = document.getElementById('imageEditorModal');
+        if(!modal) {
+            console.error("Modal #imageEditorModal not found!");
+            return;
         }
-    });
-    function applyImageChangeLocal() {
+
+        document.getElementById('imageKey').value = key;
+        
+        const input = document.getElementById('imageInputFile');
+        if(input) input.value = ''; 
+        
+        let currentUrl = '';
+        let hiddenInput = document.getElementById('val_' + key);
+        if(hiddenInput) {
+            currentUrl = hiddenInput.value;
+        } else {
+            console.warn("Hidden input val_" + key + " not found.");
+        }
+
+        let previewBox = document.getElementById('imagePreviewBox');
+        if(previewBox) {
+            previewBox.style.backgroundImage = `url('${currentUrl}')`;
+        }
+        
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+    }
+
+    window.closeImageModal = function() {
+        const modal = document.getElementById('imageEditorModal');
+        if(modal) {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+    }
+
+    // Initialize listener safely
+    const imgInput = document.getElementById('imageInputFile');
+    if(imgInput) {
+        // Remove existing listeners to prevent duplicates if re-run (optional but good practice)
+        let newElement = imgInput.cloneNode(true);
+        imgInput.parentNode.replaceChild(newElement, imgInput);
+        
+        newElement.addEventListener('change', function(e) {
+            let file = e.target.files[0];
+            if(file) {
+                let reader = new FileReader();
+                reader.onload = function(e) { 
+                    const box = document.getElementById('imagePreviewBox');
+                    if(box) box.style.backgroundImage = `url('${e.target.result}')`; 
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    window.applyImageChangeLocal = function() {
         let key = document.getElementById('imageKey').value;
+        // Re-select input because we might have cloned it above
         let file = document.getElementById('imageInputFile').files[0];
+        
         if(file) {
-            pendingChanges[key] = file; 
+            if(typeof pendingChanges !== 'undefined') {
+                pendingChanges[key] = file; 
+            } else {
+                console.error("pendingChanges variable is missing!");
+                return;
+            }
+            
             let reader = new FileReader();
-            reader.onload = function(e) { document.getElementById('heroSectionPreview').style.backgroundImage = `url('${e.target.result}')`; }
+            reader.onload = function(e) { 
+                let heroSection = document.getElementById('heroSectionPreview');
+                // Also check for profile elements just in case this is used there
+                let kadisImg = document.getElementById('img_kadis_image');
+                let strukturImg = document.getElementById('img_struktur_image');
+
+                if(key === 'hero_bg_image' && heroSection) {
+                    heroSection.style.backgroundImage = `url('${e.target.result}')`; 
+                } else if(key === 'kadis_image' && kadisImg) {
+                    kadisImg.src = e.target.result;
+                } else if(key === 'struktur_image' && strukturImg) {
+                    strukturImg.src = e.target.result;
+                }
+            }
             reader.readAsDataURL(file);
-            updateSaveButtonState();
+            
+            if(typeof updateSaveButtonState === 'function') {
+                updateSaveButtonState();
+            }
         }
         closeImageModal();
     }
@@ -612,15 +706,33 @@
         const container = document.getElementById('servicesGrid');
         if(!container) return;
         container.innerHTML = ''; 
+        
         servicesData.forEach((item, index) => {
-            let fileStatus = pendingCardFiles[index] ? '<span class="text-green-600 text-xs font-bold mt-2 block">📄 File Baru Dipilih</span>' : '';
+            // Ubah warna teks file status jadi biru
+            let fileStatus = pendingCardFiles[index] ? 
+                '<span class="text-blue-600 text-xs font-bold mt-2 block">📄 File Baru Dipilih</span>' : '';
+
             let html = `
                 <div class="relative group/card p-8 border border-blue-200 rounded-2xl shadow-sm hover:shadow-md transition bg-white text-center cursor-pointer flex flex-col justify-start h-[350px] overflow-hidden" onclick="editCard(${index})">
-                    <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-xl bg-blue-50 shrink-0"><i class="ph ph-file-pdf text-3xl text-blue-500"></i></div>
-                    <h3 class="text-xl font-semibold mb-3 h-[60px] overflow-hidden flex items-center justify-center px-2 leading-tight">${item.title}</h3>
-                    <div class="text-gray-500 leading-relaxed text-sm h-[100px] overflow-hidden px-2">${item.desc}</div>
+                    
+                    <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-xl bg-blue-50 shrink-0">
+                        <i class="ph ph-file-pdf text-3xl text-blue-500"></i>
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold mb-3 h-[60px] overflow-hidden flex items-center justify-center px-2 leading-tight">
+                        ${item.title}
+                    </h3>
+                    
+                    <div class="text-gray-500 leading-relaxed text-sm h-[100px] overflow-hidden px-2">
+                        ${item.desc}
+                    </div>
+                    
                     ${fileStatus}
-                    <div class="absolute inset-0 bg-purple-500/10 border-2 border-purple-500 rounded-2xl hidden group-hover/card:flex items-center justify-center"><span class="bg-purple-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow">Edit Kartu</span></div>
+                    
+                    <div class="absolute inset-0 bg-blue-500/10 border-2 border-blue-500 rounded-2xl hidden group-hover/card:flex items-center justify-center">
+                        <span class="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-bold shadow">Edit Kartu</span>
+                    </div>
+
                 </div>`;
             container.innerHTML += html;
         });
@@ -672,10 +784,6 @@
     }
 
 
-    // 6
-    // =========================================================
-    // 7. GALERI FOTO (FOTO)
-    // =========================================================
     let galleryData = [];
     try {
         let rawGallery = document.getElementById('json_gallery_items').value;
@@ -685,10 +793,12 @@
 
     renderGalleryGrid();
 
+    // Update fungsi renderGalleryGrid dengan Style Modern
     function renderGalleryGrid() {
         const container = document.getElementById('galleryGrid');
         if(!container) return;
         container.innerHTML = '';
+        
         galleryData.forEach((item, index) => {
             let displayImage = item.image;
             let isNewFile = false;
@@ -699,24 +809,35 @@
             }
             
             let bgStyle = (displayImage && displayImage !== '') ? `background-image: url('${displayImage}');` : '';
-            let bgColor = (displayImage && displayImage !== '') ? 'bg-white' : 'bg-gray-300';
+            let bgColor = (displayImage && displayImage !== '') ? 'bg-white' : 'bg-gray-100';
             
             let html = `
-                <div class="relative group/item h-64 rounded-xl shadow-sm overflow-hidden ${bgColor} bg-cover bg-center border border-gray-200" style="${bgStyle}">
-                    ${ (!displayImage || displayImage === '') ? '<div class="flex items-center justify-center h-full text-gray-500 font-medium">No Image</div>' : '' }
+                <div class="relative group/gallery h-64 rounded-2xl overflow-hidden shadow-sm border border-gray-200 ${bgColor} bg-cover bg-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1" style="${bgStyle}">
                     
-                    <div class="absolute inset-0 bg-black/40 hidden group-hover/item:flex items-center justify-center gap-2 transition-opacity">
+                    ${ (!displayImage || displayImage === '') ? '<div class="flex flex-col items-center justify-center h-full text-gray-400"><i class="ph ph-image text-3xl mb-2"></i><span class="text-xs font-medium">Belum ada foto</span></div>' : '' }
+                    
+                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover/gallery:opacity-100 transition-all duration-300 flex flex-col items-center justify-center gap-3 backdrop-blur-[2px]">
                         
-                        <button onclick="editGalleryItem(${index})" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-sm font-bold shadow transition transform hover:scale-105">
-                            <i class="ph ph-pencil"></i> Ganti
-                        </button>
+                        <span class="text-white text-[10px] font-bold uppercase tracking-wider opacity-80 mb-1">Kelola Foto</span>
+                        
+                        <div class="flex gap-3">
+                            <button onclick="editGalleryItem(${index})" class="bg-white text-blue-600 hover:text-blue-700 w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition transform hover:scale-110" title="Ganti Foto">
+                                <i class="ph ph-pencil-simple text-lg"></i>
+                            </button>
 
-                        <button onclick="deleteGalleryItem(${index})" class="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg text-sm font-bold shadow transition transform hover:scale-105">
-                            <i class="ph ph-trash"></i> Hapus
-                        </button>
+                            <button onclick="deleteGalleryItem(${index})" class="bg-red-600 hover:bg-red-700 text-white w-10 h-10 rounded-full flex items-center justify-center shadow-lg transition transform hover:scale-110" title="Hapus Foto">
+                                <i class="ph ph-trash text-lg"></i>
+                            </button>
+                        </div>
                     </div>
                     
-                    ${isNewFile ? '<div class="absolute top-2 right-2 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded shadow">Baru</div>' : ''}
+                    <div class="absolute bottom-3 left-3">
+                         <span class="bg-blue-600/90 backdrop-blur-sm text-white text-[10px] font-bold px-2.5 py-1 rounded-md shadow-sm">
+                            AGENDA
+                         </span>
+                    </div>
+                    
+                    ${isNewFile ? '<div class="absolute top-3 right-3 bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded shadow-sm animate-pulse">BARU</div>' : ''}
                 </div>`;
             container.innerHTML += html;
         });
@@ -801,6 +922,7 @@
         container.innerHTML = '';
         
         newsData.forEach((item, index) => {
+            // Logic Gambar
             let displayImage = item.image;
             if(pendingNewsImages[index]) {
                 displayImage = URL.createObjectURL(pendingNewsImages[index]);
