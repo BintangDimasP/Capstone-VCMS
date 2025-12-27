@@ -47,6 +47,13 @@ Route::middleware(['auth', 'can:redaktur'])->prefix('redaktur')->name('redaktur.
 });
 
 Route::get('/publikasi', [PublicationController::class, 'index'])->name('publikasi.index');
+
+Route::get('/publikasi/berita/{slug}', [PublicationController::class, 'showBerita'])
+    ->name('publikasi.berita.show');
+
+Route::get('/publikasi/agenda/{slug}', [PublicationController::class, 'showAgenda'])
+    ->name('publikasi.agenda.show');
+
 Route::get('/regulasi', [RegulationController::class, 'showRegulation'])->name('regulasi');
 Route::get('/dokumen', [DokumenController::class, 'index'])->name('dokumen');
 Route::get('/profil', [ProfileController::class, 'showProfile'])->name('profile');
